@@ -3,12 +3,13 @@ FROM node:12-alpine
 RUN apk add --no-cache tini
 # Tini is now available at /sbin/tini
 
-WORKDIR /app
+USER node
+WORKDIR /home/node
 
-COPY package.json package-lock.json ./
+COPY --chown=node:node package.json package-lock.json ./
 RUN npm install --production
 
-COPY . .
+COPY --chown=node:node . .
 
 ENTRYPOINT ["/sbin/tini", "--"]
 CMD node index.js
