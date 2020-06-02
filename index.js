@@ -5,4 +5,8 @@ console.log('GoDaddy DDNS Updater started!')
 console.log(`Domain: ${process.env.GODADDY_DOMAIN}`)
 console.log(`Cron Schedule: ${process.env.CRON_SCHEDULE}`)
 
-cron.schedule(process.env.CRON_SCHEDULE, dnsRecordUpdater);
+cron.schedule(process.env.CRON_SCHEDULE, dnsRecordUpdater({
+  domain: process.env.GODADDY_DOMAIN,
+  type: 'A',
+  name: "@",
+}));
