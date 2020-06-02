@@ -1,31 +1,53 @@
-const axios = require('axios').default;
+const godaddyApi = require('./lib/godaddyApi');
+const ipifyApi = require('./lib/ipfiyApi');
 
-const instance = axios.create({
-  baseURL: 'https://api.godaddy.com',
-  headers: {
-    Authorization: `sso-key ${process.env.GODADDY_API_KEY}:${process.env.GODADDY_API_SECRET}`,
-  },
-});
+const handleError = (error) => {
+  if (error.response) {
+    // The request was made and the server responded with a status code
+    // that falls out of the range of 2xx
+    console.log(error.response.data);
+    console.log(error.response.status);
+    console.log(error.response.headers);
+  } else if (error.request) {
+    // The request was made but no response was received
+    console.log(error.request);
+  } else {
+    // Something happened in setting up the request that triggered an Error
+    console.log('Error', error.message);
+  }
+  console.log(error.config);
+};
 
-function getCurrentRecord(domain, type, name) {
-  return instance.get(`/v1/domains/${domain}/records/${type}/${name}`);
-}
+(async () => {
+  try {
+    const [currentIpAddress, { data: ipAddressOnRecord }] = await Promise.all([
+      ipifyApi.getPublicIP(),
+      godaddyApi.getDnsRecord({
+        domain: process.env.GODADDY_DOMAIN,
+        type: 'A',
+        name: '@',
+      }),
+    ]);
 
-getCurrentRecord(process.env.GODADDY_DOMAIN, 'A', '@')
-  .then(({ data }) => console.log(data))
-  .catch((error) => {
-    if (error.response) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx
-      console.log(error.response.data);
-      console.log(error.response.status);
-      console.log(error.response.headers);
-    } else if (error.request) {
-      // The request was made but no response was received
-      console.log(error.request);
-    } else {
-      // Something happened in setting up the request that triggered an Error
-      console.log('Error', error.message);
+    if (ipAddressOnRecord != currentIpAddress) {
+      console.log(
+        `Current IP address ${currentIpAddress} matches the GoDaddy record. Skipping update!`
+      );
+      return;
     }
-    console.log(error.config);
-  });
+
+    console.log(
+      `Current IP ${currentIpAddress} differs from GoDaddy record ${ipAddressOnRecord}. Updating record!`
+    );
+    await godaddyApi.replaceDnsRecords({
+      domain: process.env.GODADDY_DOMAIN,
+      type: 'A',
+      name: '@',
+      records: [{ data: currentIpAddress, ttl: 600 }],
+    });
+
+    console.log('DNS record updated successfully');
+  } catch (error) {
+    handleError(error);
+  }
+})();
