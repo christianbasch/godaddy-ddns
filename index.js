@@ -1,5 +1,6 @@
 const godaddyApi = require('./lib/godaddyApi');
 const ipifyApi = require('./lib/ipfiyApi');
+const cron = require('node-cron');
 
 const handleError = (error) => {
   if (error.response) {
@@ -18,7 +19,7 @@ const handleError = (error) => {
   console.log(error.config);
 };
 
-(async () => {
+cron.schedule(process.env.CRON_SCHEDULE, async () => {
   try {
     const [currentIpAddress, { data: ipAddressOnRecord }] = await Promise.all([
       ipifyApi.getPublicIP(),
@@ -50,4 +51,4 @@ const handleError = (error) => {
   } catch (error) {
     handleError(error);
   }
-})();
+});
