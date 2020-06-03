@@ -1,12 +1,6 @@
-const cron = require('node-cron');
-const dnsRecordUpdater = require('./lib/dnsRecordUpdater')
+const cron = require('./lib/cron');
 
-console.log('GoDaddy DDNS Updater started!')
-console.log(`Domain: ${process.env.GODADDY_DOMAIN}`)
-console.log(`Cron Schedule: ${process.env.CRON_SCHEDULE}`)
+console.log('GoDaddy DDNS Updater started!');
+console.log(`Domain: ${process.env.GODADDY_DOMAIN}`);
 
-cron.schedule(process.env.CRON_SCHEDULE, dnsRecordUpdater({
-  domain: process.env.GODADDY_DOMAIN,
-  type: 'A',
-  name: "@",
-}));
+cron.schedule();
