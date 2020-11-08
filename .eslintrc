@@ -1,0 +1,75 @@
+{
+    "extends": [
+      "airbnb-base",
+      "prettier"
+    ],
+    "plugins": [
+      "jest",
+      "prettier"
+    ],
+    "env": {
+      "es6": true,
+      "jest": true,
+      "node": true
+    },
+    "rules": {
+      "import/no-extraneous-dependencies": [
+        "error",
+        {
+          "devDependencies": [
+            "./**/*.spec.js",
+            "./jest/*.js"
+          ]
+        }
+      ],
+      "import/order": [
+        "error",
+        {
+          "groups": [
+            "builtin",
+            "external",
+            "internal",
+            "parent",
+            "sibling",
+            "index"
+          ],
+          "newlines-between": "never"
+        }
+      ],
+      "no-use-before-define": [
+        2,
+        {
+          "functions": false,
+          "classes": true
+        }
+      ],
+      "no-confusing-arrow": "off",
+      "no-restricted-globals": [
+        "error",
+        "fdescribe",
+        "fit",
+        "xdescribe",
+        "xit"
+      ],
+      "prettier/prettier": "error"
+    },
+    "overrides": [
+      {
+        "files": [
+          "**/*.spec.js",
+          "./jest/*.js",
+          "./test/**/*.js"
+        ],
+        "extends": [
+          "airbnb-base",
+          "prettier",
+          "plugin:jest/recommended",
+          "plugin:jest/style"
+        ],
+        "rules": {
+          "no-use-before-define": "off",
+          "import/no-extraneous-dependencies": "off"
+        }
+      }
+    ]
+  }
