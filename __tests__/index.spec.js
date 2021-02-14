@@ -4,6 +4,7 @@ const mockCron = require('../lib/cron');
 const underTest = () => require('../index');
 
 jest.mock('../lib/cron');
+jest.mock('../lib/logger');
 
 describe('index - main entry point', () => {
   it('should call cron.schedule', async () => {

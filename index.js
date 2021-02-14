@@ -1,6 +1,7 @@
 const cron = require('./lib/cron');
+const logger = require('./lib/logger');
 
-console.log('GoDaddy DDNS Updater started!');
-console.log(`Domain: ${process.env.GODADDY_DOMAIN}`);
+logger.info('GoDaddy DDNS Updater started!');
+logger.info(`Domain: ${process.env.GODADDY_DOMAIN}`);
 
 cron.schedule();

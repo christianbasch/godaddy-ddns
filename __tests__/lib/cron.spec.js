@@ -4,6 +4,7 @@ const underTest = require('../../lib/cron');
 
 jest.mock('node-cron');
 jest.mock('../../lib/dnsRecordUpdater');
+jest.mock('../../lib/logger');
 
 const mockNestedDnsRecordUpdater = jest.fn();
 
