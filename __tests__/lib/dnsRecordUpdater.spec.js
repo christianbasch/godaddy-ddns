@@ -4,6 +4,7 @@ const underTest = require('../../lib/dnsRecordUpdater');
 
 jest.mock('../../lib/apis/godaddyApi');
 jest.mock('../../lib/apis/ipifyApi');
+jest.mock('../../lib/logger');
 
 describe('dnsRecordUpdater', () => {
   beforeEach(() => {
