@@ -44,13 +44,6 @@
         }
       ],
       "no-confusing-arrow": "off",
-      "no-restricted-globals": [
-        "error",
-        "fdescribe",
-        "fit",
-        "xdescribe",
-        "xit"
-      ],
       "prettier/prettier": "error"
     },
     "overrides": [

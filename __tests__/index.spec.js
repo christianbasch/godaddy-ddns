@@ -1,4 +1,6 @@
 const mockCron = require('../lib/cron');
+
+// eslint-disable-next-line global-require
 const underTest = () => require('../index');
 
 jest.mock('../lib/cron');
