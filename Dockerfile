@@ -1,4 +1,4 @@
-FROM node:12-alpine
+FROM node:lts-alpine3.13
 
 RUN apk add --no-cache tini
 # Tini is now available at /sbin/tini
