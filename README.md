@@ -1,6 +1,6 @@
 # godaddy-ddns
 
-A NodeJS-based Docker container for updating your GoDaddy domain with the IP address of the host the contaienr is running on.
+A NodeJS-based Docker container for updating your GoDaddy domain with the IP address of the host the container is running on.
 Once started, it runs at the specified interval and updates the DNS record for the given domain when the IP address has changed.
 
 ### Usage
